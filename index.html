@@ -12,6 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inclusive+Sans&display=swap" rel="stylesheet">
 
   <style>
+
     *{
       margin:0;
       padding:0;
@@ -25,15 +26,15 @@
       display:flex;
       justify-content:center;
       align-items:center;
-      padding:25px;
+      padding:20px;
     }
 
     .card{
       width:100%;
       max-width:520px;
       background:#fff;
-      border-radius:18px;
-      padding:35px 30px;
+      border-radius:20px;
+      padding:40px 34px;
     }
 
     .top{
@@ -44,7 +45,7 @@
       display:inline-block;
       background:#264FAB;
       color:#fff;
-      padding:6px 12px;
+      padding:7px 14px;
       border-radius:999px;
       font-size:13px;
       margin-bottom:18px;
@@ -52,20 +53,21 @@
 
     h1{
       color:#000;
-      font-size:34px;
+      font-size:36px;
       line-height:1.1;
-      margin-bottom:10px;
+      margin-bottom:12px;
       font-weight:700;
+      word-break:break-word;
     }
 
     .sub{
       color:#444;
       font-size:15px;
-      line-height:1.5;
+      line-height:1.6;
     }
 
     form{
-      margin-top:10px;
+      margin-top:12px;
     }
 
     .group{
@@ -83,7 +85,7 @@
     textarea{
       width:100%;
       border:1.5px solid #d8d8d8;
-      border-radius:12px;
+      border-radius:14px;
       padding:14px 15px;
       font-family:'Inclusive Sans', sans-serif;
       font-size:15px;
@@ -108,7 +110,7 @@
       justify-content:space-between;
       align-items:center;
       gap:15px;
-      margin-top:5px;
+      margin-top:8px;
     }
 
     .count{
@@ -120,12 +122,13 @@
       background:#264FAB;
       color:#fff;
       border:none;
-      border-radius:12px;
-      padding:13px 20px;
+      border-radius:14px;
+      padding:13px 22px;
       font-size:15px;
       font-family:'Inclusive Sans', sans-serif;
       cursor:pointer;
       transition:0.2s ease;
+      width:auto;
     }
 
     button:hover{
@@ -141,6 +144,7 @@
       margin-top:20px;
       font-size:14px;
       display:none;
+      line-height:1.5;
     }
 
     .success{
@@ -151,19 +155,77 @@
       color:#d93025;
     }
 
-    @media(max-width:600px){
+    /* ---------------- MOBILE ---------------- */
+
+    @media (max-width: 768px){
+
+      body{
+        padding:16px;
+        align-items:flex-start;
+      }
 
       .card{
         padding:28px 22px;
+        border-radius:18px;
       }
 
       h1{
-        font-size:28px;
+        font-size:30px;
+      }
+
+      .sub{
+        font-size:14px;
+      }
+
+      input,
+      textarea{
+        font-size:16px;
+      }
+
+    }
+
+    @media (max-width: 480px){
+
+      body{
+        padding:12px;
+      }
+
+      .card{
+        padding:24px 18px;
+        border-radius:16px;
+      }
+
+      .tag{
+        font-size:12px;
+        padding:6px 12px;
+      }
+
+      h1{
+        font-size:26px;
+        line-height:1.15;
+      }
+
+      .sub{
+        font-size:14px;
+      }
+
+      label{
+        font-size:14px;
+      }
+
+      input,
+      textarea{
+        padding:13px;
+        border-radius:12px;
       }
 
       .bottom{
         flex-direction:column;
-        align-items:flex-start;
+        align-items:stretch;
+      }
+
+      .count{
+        text-align:left;
       }
 
       button{
@@ -171,6 +233,7 @@
       }
 
     }
+
   </style>
 </head>
 <body>
@@ -178,6 +241,7 @@
   <div class="card">
 
     <div class="top">
+
       <div class="tag">Birthday Note</div>
 
       <h1>Say something about him!</h1>
@@ -185,12 +249,14 @@
       <div class="sub">
         Keep it short, genuine and memorable.
       </div>
+
     </div>
 
     <form id="wishForm">
 
       <div class="group">
         <label>Name</label>
+
         <input 
           type="text" 
           id="name" 
@@ -201,6 +267,7 @@
 
       <div class="group">
         <label>Content</label>
+
         <textarea 
           id="content"
           maxlength="120"
@@ -210,6 +277,7 @@
       </div>
 
       <div class="bottom">
+
         <div class="count">
           <span id="count">0</span>/120
         </div>
@@ -217,6 +285,7 @@
         <button type="submit" id="submitBtn">
           Submit
         </button>
+
       </div>
 
       <div class="message success" id="successMsg">
