@@ -1,375 +1,561 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Birthday Wishes</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Karthig!</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Caveat:wght@400;700&family=Nunito:wght@400;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+body {
+  background: #264FAB;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Nunito', sans-serif;
+  overflow: hidden;
+  position: relative;
+}
 
-  <!-- Inclusive Sans -->
-  <link href="https://fonts.googleapis.com/css2?family=Inclusive+Sans&display=swap" rel="stylesheet">
+.sparkle {
+  position: fixed;
+  background: rgba(255,255,255,0.25);
+  border-radius: 50%;
+  animation: float-spark ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes float-spark {
+  0%,100% { transform: translateY(0) scale(1); opacity: 0.2; }
+  50%      { transform: translateY(-30px) scale(1.6); opacity: 0.6; }
+}
 
-  <style>
+.confetti-wrap {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 0; display: none;
+}
+.confetti-wrap.active { display: block; }
+.dot {
+  position: absolute;
+  opacity: 0;
+  animation: fall linear forwards;
+}
+@keyframes fall {
+  0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
 
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-    }
+/* ENVELOPE SCENE */
+#scene {
+  position: relative; z-index: 10;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+#hint {
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  color: rgba(255,255,255,0.9);
+  margin-bottom: 20px;
+  animation: hintBounce 1.5s ease-in-out infinite;
+  letter-spacing: 1px;
+}
+@keyframes hintBounce {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+#envelope-wrap {
+  cursor: pointer;
+  animation: jumpAround 2.5s ease-in-out infinite;
+  transform-origin: center bottom;
+  user-select: none;
+}
+#envelope-wrap:hover { filter: brightness(1.12); }
+@keyframes jumpAround {
+  0%   { transform: translateY(0) rotate(-2deg) scale(1); }
+  15%  { transform: translateY(-28px) rotate(3deg) scale(1.04); }
+  30%  { transform: translateY(0) rotate(-1deg) scale(1); }
+  45%  { transform: translateY(-18px) rotate(2deg) scale(1.02); }
+  60%  { transform: translateY(0) rotate(0deg) scale(1); }
+  75%  { transform: translateY(-10px) rotate(-2deg) scale(1.01); }
+  100% { transform: translateY(0) rotate(-2deg) scale(1); }
+}
+#envelope-wrap.opening { animation: openAnim 0.8s ease forwards; }
+@keyframes openAnim {
+  0%   { transform: scale(1) rotate(0); }
+  40%  { transform: scale(1.15) rotate(-4deg); }
+  70%  { transform: scale(0.9) rotate(2deg); }
+  100% { transform: scale(0) rotate(10deg); opacity:0; }
+}
+#env-svg { display:block; filter: drop-shadow(0 12px 32px rgba(0,0,0,0.4)); }
 
-    body{
-      font-family:'Inclusive Sans', sans-serif;
-      background:#264FAB;
-      min-height:100vh;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      padding:20px;
-    }
+/* LETTER OVERLAY */
+#letter-overlay {
+  position: fixed; inset: 0;
+  background: rgba(10,25,80,0.88);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 100;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.6s ease;
+  padding: 12px;
+}
+#letter-overlay.visible { opacity:1; pointer-events:all; }
 
-    .card{
-      width:100%;
-      max-width:520px;
-      background:#fff;
-      border-radius:20px;
-      padding:40px 34px;
-    }
+#letter {
+  border-radius: 3px;
+  width: min(760px, 96vw);
+  max-height: 92vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-shadow: 0 24px 70px rgba(0,0,0,0.55), 0 0 0 5px #e8d9b5, 0 0 0 10px #d4c49a;
+  position: relative;
+  padding: 50px 44px 60px;
+  animation: letterReveal 0.7s cubic-bezier(.22,1.4,.42,1) forwards;
+  transform: scale(0.7); opacity:0;
+  background-color: #fdf8ef;
+  background-image:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 31px,
+      rgba(200,185,148,0.45) 31px,
+      rgba(200,185,148,0.45) 32px
+    ),
+    linear-gradient(
+      to right,
+      transparent 71px,
+      rgba(210,80,80,0.22) 71px,
+      rgba(210,80,80,0.22) 73px,
+      transparent 73px
+    );
+  background-attachment: local;
+}
+@keyframes letterReveal { to { transform:scale(1); opacity:1; } }
+#letter::before { content:none; }
+#letter::after  { content:none; }
 
-    .top{
-      margin-bottom:28px;
-    }
+.letter-inner { position:relative; z-index:1; }
 
-    .tag{
-      display:inline-block;
-      background:#264FAB;
-      color:#fff;
-      padding:7px 14px;
-      border-radius:999px;
-      font-size:13px;
-      margin-bottom:18px;
-    }
+.letter-title {
+  font-family: 'Pacifico', cursive;
+  font-size: clamp(26px,5vw,46px);
+  color: #264FAB;
+  text-align: center;
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+.letter-subtitle {
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  color: #c0392b;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.letter-divider {
+  border: none;
+  border-top: 2px dashed rgba(38,79,171,0.28);
+  margin: 0 auto 30px;
+  width: 55%;
+}
 
-    h1{
-      color:#000;
-      font-size:36px;
-      line-height:1.1;
-      margin-bottom:12px;
-      font-weight:700;
-      word-break:break-word;
-    }
+/* DIARY STREAM */
+#diary-stream {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  position: relative;
+}
 
-    .sub{
-      color:#444;
-      font-size:15px;
-      line-height:1.6;
-    }
+/* WISH CARD */
+.wish-card {
+  position: relative;
+  padding: 18px 20px 18px 22px;
+  border-radius: 3px;
+  box-shadow: 3px 4px 14px rgba(0,0,0,0.13), 1px 1px 0 rgba(0,0,0,0.05);
+  opacity: 0;
+  transition: transform 0.55s cubic-bezier(.22,1.4,.42,1), opacity 0.5s ease, box-shadow 0.25s;
+  cursor: default;
+  margin-bottom: 24px;
+  transform: translateY(40px) rotate(var(--r, 0deg));
+}
+.wish-card:hover { box-shadow: 5px 8px 22px rgba(0,0,0,0.2); z-index:5; }
+.wish-card.shown {
+  opacity: 1;
+  transform: translateY(0) rotate(var(--r, 0deg));
+}
+.wish-card:hover.shown {
+  transform: translateY(-3px) rotate(var(--r, 0deg)) scale(1.02);
+}
 
-    form{
-      margin-top:12px;
-    }
+/* tape */
+.wish-card::before {
+  content:'';
+  position:absolute;
+  width:50px; height:17px;
+  background: rgba(255,255,220,0.72);
+  border: 1px solid rgba(220,200,150,0.5);
+  top:-10px; left:50%;
+  transform: translateX(-50%) rotate(var(--tape-r, 0deg));
+  border-radius:2px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.wish-card.pinned::before {
+  content:'📌';
+  background:none; border:none; box-shadow:none;
+  font-size:19px;
+  top:-14px; left:10px;
+  transform: rotate(-15deg);
+  width:auto; height:auto;
+}
 
-    .group{
-      margin-bottom:20px;
-    }
+.wish-name {
+  font-family:'Caveat',cursive;
+  font-size:20px; font-weight:700;
+  margin-bottom:7px;
+}
+.wish-text {
+  font-family:'Patrick Hand',cursive;
+  font-size:15px;
+  color:#333;
+  line-height:1.7;
+}
 
-    label{
-      display:block;
-      margin-bottom:8px;
-      color:#111;
-      font-size:15px;
-    }
+/* Colour themes */
+.wc-yellow { background:#fef9c3; } .wc-yellow .wish-name { color:#92400e; }
+.wc-blue   { background:#dbeafe; } .wc-blue   .wish-name { color:#1e3a8a; }
+.wc-pink   { background:#fce7f3; } .wc-pink   .wish-name { color:#9d174d; }
+.wc-green  { background:#d1fae5; } .wc-green  .wish-name { color:#064e3b; }
+.wc-orange { background:#ffedd5; } .wc-orange .wish-name { color:#9a3412; }
+.wc-purple { background:#ede9fe; } .wc-purple .wish-name { color:#4c1d95; }
+.wc-mint   { background:#ccfbf1; } .wc-mint   .wish-name { color:#134e4a; }
+.wc-rose   { background:#ffe4e6; } .wc-rose   .wish-name { color:#881337; }
 
-    input,
-    textarea{
-      width:100%;
-      border:1.5px solid #d8d8d8;
-      border-radius:14px;
-      padding:14px 15px;
-      font-family:'Inclusive Sans', sans-serif;
-      font-size:15px;
-      outline:none;
-      transition:0.2s ease;
-      background:#fff;
-    }
+/* Layout helpers */
+.align-right { align-self:flex-end; }
+.sz-small    { width: 58%; }
+.sz-wide     { width: 100%; }
 
-    input:focus,
-    textarea:focus{
-      border-color:#264FAB;
-    }
+/* PHOTO CARD (polaroid) */
+.photo-card {
+  position:relative;
+  background:#fff;
+  padding: 9px 9px 40px;
+  box-shadow: 3px 5px 18px rgba(0,0,0,0.22), 0 0 0 1px rgba(0,0,0,0.06);
+  border-radius:2px;
+  opacity:0;
+  transition: transform 0.6s cubic-bezier(.22,1.4,.42,1), opacity 0.5s ease, box-shadow 0.25s;
+  cursor:default;
+  margin-bottom:24px;
+  transform: translateY(40px) rotate(var(--pr, 0deg));
+  flex-shrink:0;
+}
+.photo-card.shown { opacity:1; transform: translateY(0) rotate(var(--pr, 0deg)); }
+.photo-card:hover { box-shadow: 6px 10px 30px rgba(0,0,0,0.3); z-index:5; }
 
-    textarea{
-      resize:none;
-      min-height:120px;
-      line-height:1.5;
-    }
+/* tape on photo */
+.photo-card::before {
+  content:'';
+  position:absolute;
+  width:58px; height:20px;
+  background: rgba(255,255,215,0.75);
+  border:1px solid rgba(220,205,155,0.5);
+  top:-11px; left:50%;
+  transform: translateX(-50%) rotate(var(--tape-rot,-2deg));
+  border-radius:2px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.08);
+  z-index:2;
+}
 
-    .bottom{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:15px;
-      margin-top:8px;
-    }
+.photo-card img {
+  display:block;
+  width:100%; height:100%;
+  object-fit:cover;
+  object-position:center center;
+  border-radius:1px;
+  background: #e8e0d0;
+}
+.photo-caption {
+  font-family:'Caveat',cursive;
+  font-size:14px;
+  color:#666;
+  text-align:center;
+  position:absolute;
+  bottom:9px; left:0; right:0;
+}
 
-    .count{
-      font-size:13px;
-      color:#666;
-    }
+.ph-sm   { width:155px; height:130px; }
+.ph-md   { width:210px; height:170px; }
+.ph-lg   { width:265px; height:205px; }
+.ph-xl   { width:320px; height:245px; }
+.ph-wide { width:370px; height:220px; }
 
-    button{
-      background:#264FAB;
-      color:#fff;
-      border:none;
-      border-radius:14px;
-      padding:13px 22px;
-      font-size:15px;
-      font-family:'Inclusive Sans', sans-serif;
-      cursor:pointer;
-      transition:0.2s ease;
-      width:auto;
-    }
+/* Side-by-side photo row */
+.photo-row {
+  display:flex;
+  gap:16px;
+  margin-bottom:24px;
+  align-items:flex-end;
+  opacity:0;
+  transform:translateY(40px);
+  transition: transform 0.55s cubic-bezier(.22,1.4,.42,1), opacity 0.5s ease;
+}
+.photo-row.shown { opacity:1; transform:translateY(0); }
+.photo-row .photo-card { margin-bottom:0; }
 
-    button:hover{
-      transform:translateY(-1px);
-    }
+/* DOODLE row */
+.doodle {
+  font-size:20px;
+  letter-spacing:7px;
+  margin:4px 0 18px;
+  opacity:0;
+  transform:translateY(16px);
+  transition: transform 0.45s ease, opacity 0.45s ease;
+  align-self:center;
+}
+.doodle.shown { opacity:1; transform:translateY(0); }
 
-    button:disabled{
-      opacity:0.7;
-      cursor:not-allowed;
-    }
+/* FOOTER */
+.letter-footer {
+  font-family:'Pacifico',cursive;
+  font-size:clamp(18px,3vw,26px);
+  color:#264FAB;
+  text-align:center;
+  margin-top:20px;
+  opacity:0;
+  transition:opacity 1.2s ease;
+}
+.letter-footer.shown { opacity:1; }
 
-    .message{
-      margin-top:20px;
-      font-size:14px;
-      display:none;
-      line-height:1.5;
-    }
-
-    .success{
-      color:#264FAB;
-    }
-
-    .error{
-      color:#d93025;
-    }
-
-    /* ---------------- MOBILE ---------------- */
-
-    @media (max-width: 768px){
-
-      body{
-        padding:16px;
-        align-items:flex-start;
-      }
-
-      .card{
-        padding:28px 22px;
-        border-radius:18px;
-      }
-
-      h1{
-        font-size:30px;
-      }
-
-      .sub{
-        font-size:14px;
-      }
-
-      input,
-      textarea{
-        font-size:16px;
-      }
-
-    }
-
-    @media (max-width: 480px){
-
-      body{
-        padding:12px;
-      }
-
-      .card{
-        padding:24px 18px;
-        border-radius:16px;
-      }
-
-      .tag{
-        font-size:12px;
-        padding:6px 12px;
-      }
-
-      h1{
-        font-size:26px;
-        line-height:1.15;
-      }
-
-      .sub{
-        font-size:14px;
-      }
-
-      label{
-        font-size:14px;
-      }
-
-      input,
-      textarea{
-        padding:13px;
-        border-radius:12px;
-      }
-
-      .bottom{
-        flex-direction:column;
-        align-items:stretch;
-      }
-
-      .count{
-        text-align:left;
-      }
-
-      button{
-        width:100%;
-      }
-
-    }
-
-  </style>
+#close-btn {
+  position:absolute; top:14px; right:16px;
+  background:none;
+  border:2px solid rgba(38,79,171,0.3);
+  color:#264FAB;
+  border-radius:50%;
+  width:36px; height:36px;
+  font-size:20px;
+  cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Nunito',sans-serif;
+  transition:background 0.2s;
+  z-index:10;
+}
+#close-btn:hover { background:rgba(38,79,171,0.1); }
+/* TOP LEFT LOGO */
+#top-logo{
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 200px;   /* change size here */
+  height: auto;
+  z-index: 999;
+  object-fit: contain;
+}
+#letter::-webkit-scrollbar { width:6px; }
+#letter::-webkit-scrollbar-thumb { background:#264FAB33; border-radius:3px; }
+</style>
 </head>
 <body>
+<img src="logo.png" alt="Logo" id="top-logo">
 
-  <div class="card">
+<div id="sparkles"></div>
+<div class="confetti-wrap" id="confetti"></div>
 
-    <div class="top">
-
-      <div class="tag">Birthday Note</div>
-
-      <h1>Say something about him!</h1>
-
-      <div class="sub">
-        Keep it short, genuine and memorable.
-      </div>
-
-    </div>
-
-    <form id="wishForm">
-
-      <div class="group">
-        <label>Name</label>
-
-        <input 
-          type="text" 
-          id="name" 
-          placeholder="Your name"
-          required
-        >
-      </div>
-
-      <div class="group">
-        <label>Content</label>
-
-        <textarea 
-          id="content"
-          maxlength="120"
-          placeholder="Write a short message..."
-          required
-        ></textarea>
-      </div>
-
-      <div class="bottom">
-
-        <div class="count">
-          <span id="count">0</span>/120
-        </div>
-
-        <button type="submit" id="submitBtn">
-          Submit
-        </button>
-
-      </div>
-
-      <div class="message success" id="successMsg">
-        Thanks! Your message has been added.
-      </div>
-
-      <div class="message error" id="errorMsg">
-        Couldn't submit right now. Try again.
-      </div>
-
-    </form>
-
+<!-- Envelope -->
+<div id="scene">
+  <div id="hint">Tap to open your surprise!</div>
+  <div id="envelope-wrap" onclick="openEnvelope()">
+    <svg id="env-svg" width="260" height="200" viewBox="0 0 260 200" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="130" cy="196" rx="100" ry="10" fill="rgba(0,0,0,0.2)"/>
+      <rect x="10" y="60" width="240" height="130" rx="8" fill="#fff8e7" stroke="#f0d080" stroke-width="2"/>
+      <path d="M10 60 L130 10 L250 60 Z" fill="#f0d080" stroke="#e8c050" stroke-width="1.5"/>
+      <path d="M10 60 L130 130 L250 60" fill="none" stroke="#e8c050" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.6"/>
+      <path d="M100 80 Q130 55 160 80" stroke="#c0392b" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M110 85 Q130 70 150 85" stroke="#c0392b" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <circle cx="130" cy="82" r="7" fill="#e74c3c"/>
+      <text x="40" y="145" font-size="22" font-family="serif">⭐</text>
+      <text x="195" y="145" font-size="18" font-family="serif">🎈</text>
+      <text x="55" y="175" font-size="14" font-family="serif">♥</text>
+      <text x="175" y="172" font-size="14" font-family="serif">♥</text>
+      <text x="130" y="168" text-anchor="middle" font-family="Caveat, cursive" font-size="15" fill="#264FAB" font-weight="700">To: Karthig 🎂</text>
+    </svg>
   </div>
+</div>
 
-  <script>
+<!-- Letter -->
+<div id="letter-overlay">
+  <div id="letter">
+    <button id="close-btn" onclick="closeLetter()" aria-label="Close">×</button>
+    <div class="letter-inner">
+      <div class="letter-title">Happy Birthday, Karthig Sir!</div>
+      <div class="letter-subtitle">From everyone who loves working with you 💙</div>
+      <hr class="letter-divider">
+      <div id="diary-stream"></div>
+      <div class="letter-footer" id="letter-footer">Here's to a legendary year ahead, Boss!</div>
+    </div>
+  </div>
+</div>
 
-    const form = document.getElementById('wishForm');
-    const content = document.getElementById('content');
-    const count = document.getElementById('count');
+<script>
+const wishes = [
+  { name:"Soma",           text:"Ji, happy birthday 🎈🎈🎂🎂🎂... Enjoy every moment of your life 😊... Wish you all success in your life...", cls:"wc-yellow", sz:"",       align:"",      pinned:false, r:"-1.5deg", tape:"-3deg" },
+  { name:"Zharon",         text:"Happy Birthday to the Chillest Boss!",                                                          cls:"wc-blue",   sz:"sz-small", align:"align-right", pinned:true,  r:"2deg",    tape:"2deg"  },
+  { name:"Utkarsh Priye",  text:"Wishing you health, happiness and everything you have been dreaming of this year. Happy Birthday Karthig.", cls:"wc-green",  sz:"",       align:"",      pinned:false, r:"1deg",    tape:"4deg"  },
+  { name:"Neeraj",         text:"Keep building, believe in yourself! I believe in you :) Happy Birthday!!",                    cls:"wc-orange", sz:"sz-small", align:"",      pinned:true,  r:"-2deg",   tape:"-2deg" },
+  { name:"Prince",         text:"Happy Birthday Karthig! Really grateful to work with someone so open to ideas and always supportive and motivating.", cls:"wc-purple", sz:"sz-wide", align:"",      pinned:false, r:"0.5deg",  tape:"1deg"  },
+  { name:"Maitri Prabhu",  text:"Happy Birthday, Karthik! Wishing you a wonderful year ahead filled with happiness, good health, and continued success..", cls:"wc-pink",   sz:"",       align:"align-right", pinned:false, r:"-2deg",   tape:"-4deg" },
+  { name:"Shatrughan Singh",text:"Happy birthday Karthig. Had great time in Gujarat cohort. Wishing the very best for your startup, you’ll make it big ik.", cls:"wc-mint",   sz:"",       align:"",      pinned:false, r:"1.5deg",  tape:"3deg"  },
+  { name:"Devie",          text:"I hope to be in the journey to see your successful, happy and prosperous future. Happy birthday xx", cls:"wc-yellow", sz:"sz-small", align:"align-right", pinned:true,  r:"-1deg",   tape:"-1deg" },
+  { name:"%GM",            text:"Happy Birthday boss! 🎉 Wishing you success, happiness & family joy ❤️ This year, we'll achieve our revenue target ❤️‍🔥", cls:"wc-blue",   sz:"sz-wide", align:"",      pinned:false, r:"0deg",    tape:"2deg"  },
+  { name:"Amrutha",        text:"Happiest birthday karthiggggg 🥳 God bless you abundantly. I miss all the ted talks and jokes you crack 🥹", cls:"wc-orange", sz:"",       align:"",      pinned:false, r:"-1.5deg", tape:"-3deg" },
+  { name:"Jennifer D",     text:"Happy Birthday Karthig! 🥰✨",                                                                  cls:"wc-rose",   sz:"sz-small", align:"align-right", pinned:true,  r:"2.5deg",  tape:"5deg"  },
+];
 
-    const successMsg = document.getElementById('successMsg');
-    const errorMsg = document.getElementById('errorMsg');
+const photos = [
+  { src:"boss.png",   caption:"Cute Photooo",      sz:"ph-lg",   rot:"-3deg",  tape:"2deg"  },
+  { src:"boss2.jpeg", caption:"Another Cutee Photooo",        sz:"ph-lg",   rot:"2.5deg", tape:"-3deg" },
+  { src:"boss3.jpeg", caption:"CEO mode: ON ",           sz:"ph-xl",   rot:"-4deg",  tape:"4deg"  },
+  { src:"boss4.jpeg", caption:"Locked in?",       sz:"ph-xl",   rot:"1.5deg", tape:"-2deg" },
+  { src:"boss5.png",  caption:"Baby Mode",   sz:"ph-wide", rot:"-2deg",  tape:"3deg"  },
+];
 
-    const submitBtn = document.getElementById('submitBtn');
+const doodles = ["🎈 ✂️ 📎 🎀","⭐ 💫 ✨ ⭐","🎂 🎁 🎉 🥳","💙 💛 💚 💜","🌟 ❤️ 🌈 🦋"];
+let doodleIdx = 0;
 
-    content.addEventListener('input', () => {
-      count.textContent = content.value.length;
-    });
+function buildDiary() {
+  // Photos stay in fixed order 1-5, wishes stay in fixed order too
+  // Distribute 5 photos evenly across 11 wishes: insert after wish index 1, 3, 5, 7, 9
+  const photoSlots = [1, 3, 5, 7, 9];
+  const items = [];
+  wishes.forEach((w, i) => {
+    items.push({type:'wish', data:w});
+    if(Math.random()>0.65){ items.push({type:'doodle'}); }
+    const slotIdx = photoSlots.indexOf(i);
+    if(slotIdx !== -1 && slotIdx < photos.length){
+      items.push({type:'photo', data:photos[slotIdx]});
+    }
+  });
+  return items;
+}
 
-    form.addEventListener('submit', async (e) => {
+function makeWishCard(w){
+  const div=document.createElement('div');
+  div.className=`wish-card ${w.cls} ${w.sz} ${w.align}${w.pinned?' pinned':''}`;
+  div.style.cssText=`--r:${w.r};--tape-r:${w.tape};`;
+  div.innerHTML=`<div class="wish-name">${w.name}</div><div class="wish-text">${w.text.replace(/\n/g,'<br>')}</div>`;
+  return div;
+}
 
-      e.preventDefault();
+function makePhotoCard(p,standalone,idx){
+  const div=document.createElement('div');
+  div.className=`photo-card ${p.sz}`;
+  div.style.cssText=`--pr:${p.rot};--tape-rot:${p.tape};`;
+  if(standalone) div.style.alignSelf=(idx%2===0)?'flex-start':'flex-end';
+  const img=document.createElement('img');
+  img.src=p.src;
+  img.alt=p.caption;
+  img.loading='lazy';
+  img.style.cssText='display:block;width:100%;height:100%;object-fit:cover;object-position:center center;border-radius:1px;background:#e8e0d0;';
+  img.onerror=function(){
+    this.style.display='none';
+    const ph=document.createElement('div');
+    ph.style.cssText='width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;background:#f5f0e8;border-radius:1px;';
+    ph.innerHTML='<span style="font-size:36px">📷</span><span style="font-family:Caveat,cursive;font-size:13px;color:#999;">'+p.caption+'</span>';
+    this.parentNode.insertBefore(ph,this);
+  };
+  const cap=document.createElement('div');
+  cap.className='photo-caption';
+  cap.textContent=p.caption;
+  div.appendChild(img);
+  div.appendChild(cap);
+  return div;
+}
 
-      successMsg.style.display = 'none';
-      errorMsg.style.display = 'none';
+function makeDoodle(){
+  const div=document.createElement('div');
+  div.className='doodle';
+  div.textContent=doodles[doodleIdx++%doodles.length];
+  return div;
+}
 
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Submitting...';
+function showLetter(){
+  const overlay=document.getElementById('letter-overlay');
+  overlay.classList.add('visible');
+  const stream=document.getElementById('diary-stream');
+  stream.innerHTML='';
 
-      const name = document.getElementById('name').value.trim();
-      const message = content.value.trim();
+  const items=buildDiary();
+  const allEls=[];
 
-      try {
+  let photoIdx=0;
+  items.forEach(item=>{
+    if(item.type==='wish'){
+      const el=makeWishCard(item.data);
+      stream.appendChild(el);
+      allEls.push(el);
+    } else if(item.type==='photo'){
+      const el=makePhotoCard(item.data,true,photoIdx++);
+      stream.appendChild(el);
+      allEls.push(el);
+    } else if(item.type==='doodle'){
+      const el=makeDoodle();
+      stream.appendChild(el);
+      allEls.push(el);
+    }
+  });
 
-        const response = await fetch('https://sheetdb.io/api/v1/x94nbwu6w9yx7', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            data: [
-              {
-                Name: name,
-                Content: message
-              }
-            ]
-          })
-        });
+  allEls.forEach((el,i)=>{
+    setTimeout(()=>el.classList.add('shown'), 180+i*85);
+  });
 
-        if(response.ok){
+  const footer=document.getElementById('letter-footer');
+  footer.classList.remove('shown');
+  setTimeout(()=>footer.classList.add('shown'), 180+allEls.length*85+500);
+}
 
-          form.reset();
-          count.textContent = '0';
+// Sparkles
+const sw2=document.getElementById('sparkles');
+for(let i=0;i<30;i++){
+  const s=document.createElement('div');
+  s.className='sparkle';
+  s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;width:${4+Math.random()*8}px;height:${4+Math.random()*8}px;animation-delay:${Math.random()*6}s;animation-duration:${4+Math.random()*5}s;`;
+  sw2.appendChild(s);
+}
 
-          successMsg.style.display = 'block';
+function openEnvelope(){
+  const wrap=document.getElementById('envelope-wrap');
+  document.getElementById('hint').style.opacity='0';
+  wrap.classList.add('opening');
+  wrap.onclick=null;
+  launchConfetti();
+  setTimeout(showLetter,700);
+}
 
-        }else{
+function closeLetter(){
+  document.getElementById('letter-overlay').classList.remove('visible');
+  setTimeout(()=>{
+    const wrap=document.getElementById('envelope-wrap');
+    wrap.classList.remove('opening');
+    wrap.style.animation='none';
+    requestAnimationFrame(()=>{ wrap.style.animation=''; wrap.onclick=openEnvelope; });
+    document.getElementById('hint').style.opacity='1';
+  },400);
+}
 
-          errorMsg.style.display = 'block';
-
-        }
-
-      } catch (err){
-
-        errorMsg.style.display = 'block';
-
-      }
-
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Submit';
-
-    });
-
-  </script>
-
+function launchConfetti(){
+  const colors=['#fff','#ffd700','#ff6b6b','#7bc8f6','#98fb98','#ffb347','#dda0dd','#f9a8d4'];
+  const wrap=document.getElementById('confetti');
+  wrap.classList.add('active'); wrap.innerHTML='';
+  for(let i=0;i<150;i++){
+    const d=document.createElement('div');
+    d.className='dot';
+    const sz=6+Math.random()*10;
+    d.style.cssText=`left:${Math.random()*100}%;top:-20px;width:${sz}px;height:${sz*(Math.random()>.5?1:2.5)}px;background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:${Math.random()>.5?'50%':'2px'};animation-duration:${1.5+Math.random()*3}s;animation-delay:${Math.random()*1.5}s;`;
+    wrap.appendChild(d);
+  }
+  setTimeout(()=>{wrap.classList.remove('active');wrap.innerHTML='';},6000);
+}
+</script>
 </body>
 </html>
